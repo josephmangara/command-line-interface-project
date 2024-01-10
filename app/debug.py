@@ -5,7 +5,7 @@ from sqlalchemy.orm import sessionmaker
 
 
 if __name__ == '__main__':
-    engine = create_engine('sqlite:///library_management_sysem.db')
+    engine = create_engine('sqlite:///library_management_system.db')
     Session = sessionmaker(bind=engine)
     session = Session()
 
