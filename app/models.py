@@ -17,11 +17,33 @@ class Library(Base):
     location = Column(String)
     address = Column(String)
 
+    books = relationship('Book', back_populates='library')
+
     def __repr__(self):
         return f"Library {self.id}: " \
             + f"{self.name}, " \
             + f"{self.address}" \
             + f"{self.location}"
+    def borrowed_books(self):
+        pass
+
+class Staff(Base):
+    __tablename__ = 'staff'
+
+    id = Column(Integer(), primary_key=True)
+    first_name = Column(String)
+    last_name =  Column(String)
+    position = Column(String)
+    salary = Column(Integer)
+    employee_id = Column(Integer)
+
+    def __repr__(self):
+        return f"User {self.id}: " \
+               + f"{self.first_name} {self.last_name}, " \
+               + f"Position: {self.position}" \
+               + f"Id: {self.employee_id}" \
+               + f"Salary: {self.salary}"
+
 
 class Book(Base):
     __tablename__ = 'books'
@@ -32,11 +54,27 @@ class Book(Base):
     edition = Column(String)
     condition = Column(String)
 
-class User(Base):
-    __tablename__ = 'users'
+    def __repr__(self):
+        return f"Book {self.id}: " \
+               + f"{self.title} by {self.author}, " \
+               + f"Edition: {self.edition}, " \
+               + f"Condition: {self.condition}"
+
+
+class Reader(Base):
+    __tablename__ = 'readers'
 
     id = Column(Integer(), primary_key=True)
     first_name = Column(String)
     last_name =  Column(String)
-    contact_info = Column(Integer)
+    contact_info = Column(String)
 
+    books = relationship('Book')
+
+    def __repr__(self):
+        return f"User {self.id}: " \
+               + f"{self.first_name} {self.last_name}, " \
+               + f"Contact Info: {self.contact_info}"
+
+    def borrowed_a_book(self):
+        pass 
