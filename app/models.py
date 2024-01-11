@@ -2,7 +2,7 @@
 
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import relationship, sessionmaker
+from sqlalchemy.orm import relationship, sessionmaker, backref
 from sqlalchemy import (Column, ForeignKey, String, Integer)
 
 engine = create_engine('sqlite:///library_management_system.db')
@@ -17,13 +17,14 @@ class Library(Base):
     location = Column(String)
     address = Column(String)
 
+    staff = relationship('Staff', backref=backref('library'))
     books = relationship('Book', back_populates='library')
 
     def __repr__(self):
         return f"Library {self.id}: " \
             + f"{self.name}, " \
-            + f"{self.address}" \
-            + f"{self.location}"
+            + f"{self.address}" 
+    
     def borrowed_books(self):
         pass
 
@@ -36,6 +37,7 @@ class Staff(Base):
     position = Column(String)
     salary = Column(Integer)
     employee_id = Column(Integer)
+    library_id = Column(Integer(), ForeignKey('libraries.id'))
 
     def __repr__(self):
         return f"User {self.id}: " \
@@ -43,23 +45,6 @@ class Staff(Base):
                + f"Position: {self.position}" \
                + f"Id: {self.employee_id}" \
                + f"Salary: {self.salary}"
-
-
-class Book(Base):
-    __tablename__ = 'books'
-
-    id = Column(Integer(), primary_key=True)
-    author = Column(String)
-    title = Column(String)
-    edition = Column(String)
-    condition = Column(String)
-
-    def __repr__(self):
-        return f"Book {self.id}: " \
-               + f"{self.title} by {self.author}, " \
-               + f"Edition: {self.edition}, " \
-               + f"Condition: {self.condition}"
-
 
 class Reader(Base):
     __tablename__ = 'readers'
@@ -78,3 +63,20 @@ class Reader(Base):
 
     def borrowed_a_book(self):
         pass 
+
+class Book(Base):
+    __tablename__ = 'books'
+
+    id = Column(Integer(), primary_key=True)
+    author = Column(String)
+    title = Column(String)
+    edition = Column(String)
+    condition = Column(String)
+    owner_library_id = Column(Integer, ForeignKey('libraries.id'))
+    reader_id = Column(Integer, ForeignKey('readers.id'))
+
+    def __repr__(self):
+        return f"Book {self.id}: " \
+               + f"{self.title} by {self.author}, " \
+               + f"Edition: {self.edition}, " \
+               + f"Condition: {self.condition}"
