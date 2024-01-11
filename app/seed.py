@@ -60,11 +60,23 @@ if __name__ == '__main__':
 
     # Add books 
     books = []
+    desired_book_count = 45
+    books_created = 0
+
     for library in libraries:
         for reader in readers:
-            book = Book(
-                author=gen_data.create_name(),
-                title=gen_data.create_nouns(max=5),
-                edition=gen_data.create_date(past=True),
-                condition=random.choice(['new', 'used'])
-            )
+            if books_created < desired_book_count:
+                book = Book(
+                    author=gen_data.create_name(),
+                    title=gen_data.create_nouns(max=5),
+                    edition=gen_data.create_date(past=True),
+                    condition=random.choice(['new', 'used']),
+                    library=library  
+                )
+                session.add(book)
+                books.append(book)
+                books_created += 1
+            else:
+                break
+
+    session.commit()

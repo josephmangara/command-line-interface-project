@@ -2,8 +2,8 @@
 
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import relationship, sessionmaker, backref
-from sqlalchemy import (Column, ForeignKey, String, Integer)
+from sqlalchemy.orm import relationship, back_populates, backref
+from sqlalchemy import Table, Column, ForeignKey, String, Integer
 
 engine = create_engine('sqlite:///library_management_system.db')
 
@@ -46,6 +46,12 @@ class Staff(Base):
                + f"Id: {self.employee_id}" \
                + f"Salary: {self.salary}"
 
+association_table = Table('association', Base.metadata,
+    Column('library_id', Integer, ForeignKey('libraries.id')),
+    Column('reader_id', Integer, ForeignKey('readers.id')),
+    Column('book_id', Integer, ForeignKey('books.id'))
+)                          
+
 class Reader(Base):
     __tablename__ = 'readers'
 
@@ -54,7 +60,7 @@ class Reader(Base):
     last_name =  Column(String)
     contact_info = Column(String)
 
-    books = relationship('Book')
+    books = relationship('Book', secondary=association_table, back_populates='readers')
 
     def __repr__(self):
         return f"User {self.id}: " \
