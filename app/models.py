@@ -82,6 +82,9 @@ class Book(Base):
     library_id = Column(Integer, ForeignKey('libraries.id'))
     reader_id = Column(Integer, ForeignKey('readers.id'))
 
+    library = relationship('Library', back_populates='books')
+    readers = relationship('Reader', back_populates='books')
+
     def __repr__(self):
         return f"Book {self.id}: " \
                + f"{self.title} by {self.author}, " \
