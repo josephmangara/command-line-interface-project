@@ -2,7 +2,7 @@
 
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import relationship, back_populates, backref
+from sqlalchemy.orm import relationship, backref
 from sqlalchemy import Table, Column, ForeignKey, String, Integer
 
 engine = create_engine('sqlite:///library_management_system.db')
@@ -37,7 +37,7 @@ class Staff(Base):
     position = Column(String)
     salary = Column(Integer)
     employee_id = Column(Integer)
-    library_id = Column(Integer(), ForeignKey('libraries.id'))
+    staff_library_id = Column(Integer(), ForeignKey('libraries.id'))
 
     def __repr__(self):
         return f"User {self.id}: " \
@@ -47,9 +47,9 @@ class Staff(Base):
                + f"Salary: {self.salary}"
 
 association_table = Table('association', Base.metadata,
-    Column('library_id', Integer, ForeignKey('libraries.id')),
-    Column('reader_id', Integer, ForeignKey('readers.id')),
-    Column('book_id', Integer, ForeignKey('books.id'))
+    Column('my_library_id', Integer, ForeignKey('libraries.id')),
+    Column('my_reader_id', Integer, ForeignKey('readers.id')),
+    Column('my_book_id', Integer, ForeignKey('books.id'))
 )                          
 
 class Reader(Base):
@@ -60,6 +60,7 @@ class Reader(Base):
     last_name =  Column(String)
     contact_info = Column(String)
 
+    reader_library_id = Column(Integer(), ForeignKey('libraries.id'))
     books = relationship('Book', secondary=association_table, back_populates='readers')
 
     def __repr__(self):
@@ -78,7 +79,7 @@ class Book(Base):
     title = Column(String)
     edition = Column(String)
     condition = Column(String)
-    owner_library_id = Column(Integer, ForeignKey('libraries.id'))
+    library_id = Column(Integer, ForeignKey('libraries.id'))
     reader_id = Column(Integer, ForeignKey('readers.id'))
 
     def __repr__(self):
