@@ -36,18 +36,6 @@ def list_libraries():
 
 @cli.command()
 @click.argument('library_id', type=int)
-def list_books(library_id):
-    """List books in a library"""
-    library = session.query(Library).get(library_id)
-    if library:
-        books = session.query(Book).filter_by(library_id=library_id).all()
-        for book in books:
-            print(book)
-    else:
-        print(f"Library with ID {library_id} not found.")
-
-@cli.command()
-@click.argument('library_id', type=int)
 @click.option('--name', prompt='Enter new library name', help='New name of the library')
 @click.option('--location', prompt='Enter new library location', help='New location of the library')
 @click.option('--address', prompt='Enter new library address', help='New address of the library')
@@ -74,6 +62,13 @@ def delete_library(library_id):
         print(f"Library with ID {library_id} deleted successfully.")
     else:
         print(f"Library with ID {library_id} not found.")
+
+@cli.command()
+def list_books():
+    """List all books"""
+    books = session.query(Book).all()
+    for book in books:
+        print(book)
 
 if __name__ == '__main__':
     cli()
