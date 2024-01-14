@@ -69,6 +69,45 @@ def list_books():
     books = session.query(Book).all()
     for book in books:
         print(book)
+@cli.command()
+def list_staff():
+    """List all staff"""
+    staff = session.query(Staff).all()
+    for employee in staff:
+        print(employee)
+
+@cli.command()
+@click.option('--author', prompt='Enter book author', help='Author of the book')
+@click.option('--title', prompt='Enter book title', help='Title of the book')
+@click.option('--edition', prompt='Enter book edition', help='Edition of the book')
+@click.option('--condition', prompt='Enter book condition', help='Condition of the book')
+def add_books(author, title, edition, condition):
+    """Add books"""
+    new_book = Book(author=author, title=title, edition=edition, condition=condition)
+    session.add(new_book)
+    session.commit()
+    print(f"Book '{title}' added successfully.")
+
+@cli.command()
+@click.argument('book_id', type=int)
+@click.option('--author', prompt='Enter new author', help='New author of the book')
+@click.option('--title', prompt='Enter new title', help='New title of the book')
+@click.option('--edition', prompt='Enter new edition', help='New edition of the book')
+@click.option('--condition', prompt='Enter new condition', help='New condition of the book')
+def update_book(book_id, author, title, edition, condition):
+    """Update a book"""
+    book = session.query(Book).get(book_id)
+    if book:
+        book.author = author
+        book.title = title
+        book.edition = edition
+        book.condition = condition
+        session.commit()
+        print(f"Book with ID {book_id} updated successfully.")
+    else:
+        print(f"Book with ID {book_id} not found.")
+
+
 
 if __name__ == '__main__':
     cli()

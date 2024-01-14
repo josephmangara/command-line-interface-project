@@ -42,8 +42,8 @@ class Staff(Base):
     def __repr__(self):
         return f"User {self.id}: " \
                + f"{self.first_name} {self.last_name}, " \
-               + f"Position: {self.position}" \
-               + f"Id: {self.employee_id}" \
+               + f"Position: {self.position}, " \
+               + f"Id: {self.employee_id}, " \
                + f"Salary: {self.salary}"
 
 association_table = Table('association', Base.metadata,
