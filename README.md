@@ -5,7 +5,7 @@ This command-line interface (CLI) allows you to manage a library management syst
 My models represent entities such as libraries, staff, readers, and books, along with their relationships.
 
 ## Models
-1. Library
+1. Library:
 Attributes:
 
 id: Primary key for the library.
@@ -17,7 +17,7 @@ Relationships:
 staff: One-to-Many relationship with Staff.
 books: One-to-Many relationship with Book.
 
-2. Staff
+2. Staff:
 Attributes:
 
 id: Primary key for the staff member.
@@ -31,7 +31,7 @@ Relationships:
 
 library: Many-to-One relationship with Library.
 
-3. Reader
+3. Reader:
 Attributes:
 
 id: Primary key for the reader.
@@ -42,7 +42,7 @@ Relationships:
 
 books: Many-to-Many relationship with Book through the association_table.
 
-4. Book
+4. Book:
 Attributes:
 
 id: Primary key for the book.
@@ -57,7 +57,7 @@ Relationships:
 library: Many-to-One relationship with Library.
 readers: Many-to-Many relationship with Reader through the association_table.
 
-5. Association Table
+5. Association Table:
 Table:
 association_table: Table defining the many-to-many relationship between Readers and Books.
 
@@ -82,6 +82,7 @@ association_table: Table defining the many-to-many relationship between Readers 
 
 ## Usage
 Run the following commands on terminal:
+#### run python3 crud_cli.py to see the list of the available commands.
 1. Adding a Library
    python3 crud_cli.py add-library
 

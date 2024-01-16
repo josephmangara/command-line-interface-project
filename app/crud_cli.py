@@ -64,23 +64,39 @@ def delete_library(library_id):
         print(f"Library with ID {library_id} not found.")
 
 @cli.command()
-def list_books():
-    """List all books"""
-    books = session.query(Book).all()
-    for book in books:
-        print(book)
-@cli.command()
 def list_staff():
     """List all staff"""
     staff = session.query(Staff).all()
     for employee in staff:
         print(employee)
 @cli.command()
+@click.option('--first_name', prompt='Enter first name', help='First name of the staff')
+@click.option('--last_name', prompt='Enter last name', help='Last name of the staff')
+@click.option('--position', prompt='Enter position', help='Employee position')
+@click.option('--salary', prompt='Enter salary', help='Employee salary')
+@click.option('--employee_id', prompt='Enter employee_id', help='Employee id')
+
+def add_employee(first_name, last_name, position, salary, employee_id):
+    """Add employee"""
+    new_staff = Staff(first_name=first_name, last_name=last_name, position=position, salary=salary, employee_id=employee_id)
+    session.add(new_staff)
+    session.commit()
+    print(f"Employee added successfully")
+
+@cli.command()
 def list_readers():
     """List all readers"""
     reader = session.query(Reader).all()
     for readers in reader:
         print(readers)
+
+@cli.command()
+def list_books():
+    """List all books"""
+    books = session.query(Book).all()
+    for book in books:
+        print(book)
+
 @cli.command()
 @click.option('--author', prompt='Enter book author', help='Author of the book')
 @click.option('--title', prompt='Enter book title', help='Title of the book')
