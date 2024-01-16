@@ -75,7 +75,12 @@ def list_staff():
     staff = session.query(Staff).all()
     for employee in staff:
         print(employee)
-
+@cli.command()
+def list_readers():
+    """List all readers"""
+    reader = session.query(Reader).all()
+    for readers in reader:
+        print(readers)
 @cli.command()
 @click.option('--author', prompt='Enter book author', help='Author of the book')
 @click.option('--title', prompt='Enter book title', help='Title of the book')

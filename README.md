@@ -106,6 +106,9 @@ Run the following commands on terminal:
 8. Updating books
    python3 crud_cli.py update-book <book_id>
 
+9. Listing staff
+   python3 crud_cli.py list-staff
+
 ### Quitting the cli
 - Click control + c for linux and windows users and command + c for macOs.
 
