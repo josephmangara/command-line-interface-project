@@ -1,6 +1,6 @@
 # command-line-interface-project
 
-This command-line interface (CLI) allows you to manage a library management system. You can perform various CRUD operations such as adding libraries, listing libraries, updating libraries, deleting libraries, listing books, and adding books.
+This command-line interface (CLI) allows you to manage a library management system. You can perform various CRUD operations such as adding, listing, updating and deleting libraries, listing and adding books among others. 
 
 My models represent entities such as libraries, staff, readers, and books, along with their relationships.
 
